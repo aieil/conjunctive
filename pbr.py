@@ -1,4 +1,7 @@
-import re
+# pbr
+# performs a proof by refutation using an implementation of the dpll 
+# algorithm
+# 
 from copy import deepcopy as dc #take that mutables!
 
 # returns true if SAT
@@ -29,9 +32,12 @@ def dpll(clauses, literals):
 
     # pure literal step
     pure_lit(l, c)
-
+    
     # take the 1st available literal
-    return dpll(c+[l[0]], l) or dpll(c+[neg(l[0])], l)
+    if l:
+        return dpll(c+[l[0]], l) or dpll(c+[neg(l[0])], l)
+    # if there aren't any we are done, recurse once more for solution
+    return dpll(c, l)
 
 # performs both unit propagation and pure literal functions
 def unit_prop(literal, clauses, literals):

@@ -48,7 +48,7 @@ class CNFConverter(object):
         terms.append(term)
 
     def elim_iff(terms):
-        #
+        pass
 
     def lookAheadParen(self, formula):
         """

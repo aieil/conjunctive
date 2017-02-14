@@ -20,27 +20,24 @@ def dpll(clauses, literals):
     l = dc(literals)
  
     # c contains only unit clauses or is empty
-    if c == [] or all(len(clause) == 1 for clauses in c): return True
+    if c == [] or all(len(clause) == 1 for clause in c): return True
     elif [] in c: return False # c contains an empty clause
 
+    # unit propagation
     for literal in units(clauses):
         unit_prop(literal, c, l)
+
+    # pure literal step
     pure_lit(l, c)
 
     # take the 1st available literal
     return dpll(c+[l[0]], l) or dpll(c+[neg(l[0])], l)
 
 # performs both unit propagation and pure literal functions
-def unit_prop(literal, clauses):
+def unit_prop(literal, clauses, literals):
     n = neg(literal)
 
-    # eliminate literal from literals
-    i = 0
-    while i < len(literals):
-        if literals[i] == n or literals[i] == literal:
-            del literals[i]
-        else:
-            i += 1
+    clear(n, literals) # n is about to be eliminated
 
     # given literal:
     # for every clause, delete it if it is true, delete contradictions
@@ -49,6 +46,8 @@ def unit_prop(literal, clauses):
         j = 0
         while j < len(clauses[i]):
             if clauses[i][j] == literal:
+                for l in clauses[i][j]:
+                    clear(l, literals)
                 del clauses[i]
                 i -= 1
                 break
@@ -59,7 +58,7 @@ def unit_prop(literal, clauses):
         i += 1
 
 # deletes all pure literals
-def pure_lit(clauses, literals):
+def pure_lit(literals, clauses):
     i = 0
     
     while i < len(literals):
@@ -71,6 +70,17 @@ def pure_lit(clauses, literals):
                 else:
                     j += 1
             del literals[i]
+        else:
+            i += 1
+
+# removes element from list
+# I thought this would be more useful than it turned out to be
+def clear(el, ls, single=True):
+    i = 0
+    while i < len(ls):
+        if ls[i] == el:
+            del ls[i]
+            if single: return
         else:
             i += 1
     

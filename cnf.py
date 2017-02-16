@@ -1,5 +1,5 @@
 import logicparse as lp
-
+from neg import neg, invert
 
 def elim(formula):
     # combined elimination of <-> and ->
@@ -20,11 +20,17 @@ def elim(formula):
             formula = ['!', termA, 'v', termB]
     return formula
 
+<<<<<<< HEAD
 def collapse_not(expr_list):
     """
     Takes a nested expression tree thing, checks for uncollapsed nots
     """
 
+=======
+def demorgan(formula):
+    return neg([invert(symbol) if symbol in ('^', 'v') else neg(symbol) \
+            for symbol in formula])
+>>>>>>> master
 
 def findall(seq, elem):
     """

@@ -3,6 +3,7 @@
 # algorithm
 # 
 from copy import deepcopy as dc #take that mutables!
+from neg import neg
 
 # returns true if SAT
 def pbr(clauses):
@@ -93,6 +94,3 @@ def clear(el, ls, single=True):
 # returns list of literals that appear as unit clauses
 def units(clauses): return [c[0] for c in clauses if len(c) == 1]
 
-# returns the negative of a literal
-# e.g. given Cat returns !Cat, vice-versa
-def neg(literal): return literal[1:] if literal[0] == '!' else '!' + literal

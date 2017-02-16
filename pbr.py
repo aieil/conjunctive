@@ -22,10 +22,13 @@ def dpll(clauses, literals):
     # these are going to be butchered so don't modify the original data
     c = dc(clauses)
     l = dc(literals)
+
+    cls == consistent_lits(clauses, literals)
  
-    # c contains only unit clauses or is empty
-    if c == [] or all(len(clause) == 1 for clause in c): return True
-    elif [] in c: return False # c contains an empty clause
+    # c is a consistent set of literals or is empty
+    if c == [] or cls: return True
+    # c contains an empty clause or is unsatisfiable
+    elif [] in clauses or cls is None: return False 
 
     # unit propagation
     for literal in units(clauses):
@@ -40,7 +43,7 @@ def dpll(clauses, literals):
     # if there aren't any we are done, recurse once more for solution
     return dpll(c, l)
 
-# performs both unit propagation and pure literal functions
+# performs both unit propagation alg
 def unit_prop(literal, clauses, literals):
     n = neg(literal)
 
@@ -93,4 +96,25 @@ def clear(el, ls, single=True):
     
 # returns list of literals that appear as unit clauses
 def units(clauses): return [c[0] for c in clauses if len(c) == 1]
+
+# returns true if clauses is a consistent set of literals
+# returns none if clauses is an inconsistent set of literals (not SAT)
+# returns false otherwise (not yet determined)
+def consistent_lits(clauses, literals):
+    # check that everything is a literal
+    for clause in clauses:
+        if len(clause) > 1: return False
+
+    # check that everything is consistent    
+    i = 0
+    while i < len(literals):
+        j = i + 1
+        while j < len(literals):
+            if literals[j] == neg(literals[i]):
+                return None # inconsistent, exit now
+            j += 1
+        i += 1
+    return True
+
+
 

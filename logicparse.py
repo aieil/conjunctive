@@ -2,8 +2,6 @@ import re
 
 # globally defined regex matches brackets, atoms, and operators
 splitter = r'\(|\)|!?[A-Z,a-u,w-z,0-9]+|\<\-\>|\-\>|\^|v|!'
-# regex for just the operators
-opers = r'\<\-\>|\-\>|\^|v|!'
 
 # separates logical expression into list of values matching r
 def parse(expr): 
@@ -48,6 +46,8 @@ def nestgen(lis, extend=False):
 
     return nested_expr
 
+# finds logic operators of given type, groups values around it in a 
+# bracketed expression
 def find_and_group(lis, oper, groupsize=3):
     i = 0
     while len(lis) > groupsize and i < len(lis) - (groupsize - 1):

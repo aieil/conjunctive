@@ -1,7 +1,7 @@
 import re
 
 # globally defined regex matches brackets, atoms, and operators
-splitter = r'\(|\)|!?[A-Z,a-u,w-z,0-9]+|\<\-\>|\-\>|\^|v|!'
+splitter = r'\(|\)|!?[A-Za-uw-z0-9]+|\<\-\>|\-\>|\^|v|!'
 
 # separates logical expression into list of values matching r
 def parse(expr): 
@@ -55,3 +55,9 @@ def find_and_group(lis, oper, groupsize=3):
             lis[i] = [lis[j] for j in range(i, i+groupsize)]
             for j in range(groupsize-1): del lis[i+1]
         i += 1
+
+# for the three-colour problem, just goes through the list and 
+# makes the strings into integers
+def make_ints(lis):
+    return [int(e) if type(e) == str else make_ints(e) if type(e) == list \
+            else e for e in lis]

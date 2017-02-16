@@ -8,7 +8,7 @@
 ## question modules
 Question modules answering questions 1-3.
 
-### pbr
+### 2. pbr
 __pbr.py : performs proof-by-refutation using the DPLL algorithm__
 
 uses modules deepcopy (standard library) and neg (provided)

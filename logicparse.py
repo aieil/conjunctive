@@ -11,7 +11,7 @@ def parse(expr):
 
 # generates a nested list of logical expressions
 # destructive, shouldn't be messed with without copying
-def nestgen(lis):
+def nestgen(lis, extend=False):
     nested_expr = []
     # precedence (), !, ^, v, ->, <->
 
@@ -26,24 +26,25 @@ def nestgen(lis):
         else:
             nested_expr.append(curr)
 
-    for e in enumerate(nested_expr):
-        if type(e[1]) == list:
-            nested_expr[e[0]] = nestgen(nested_expr[e[0]])
+    if extend:
+        for e in enumerate(nested_expr):
+            if type(e[1]) == list:
+                nested_expr[e[0]] = nestgen(nested_expr[e[0]])
 
-    # negation
-    find_and_group(nested_expr, '!', 2)
+        # negation
+        find_and_group(nested_expr, '!', 2)
 
-    # conjunction
-    find_and_group(nested_expr, '^')
+        # conjunction
+        find_and_group(nested_expr, '^')
 
-    # disjunction
-    find_and_group(nested_expr, 'v')
+        # disjunction
+        find_and_group(nested_expr, 'v')
 
-    # implication
-    find_and_group(nested_expr, '->')
+        # implication
+        find_and_group(nested_expr, '->')
 
-    # iff
-    find_and_group(nested_expr, '<->')
+        # iff
+        find_and_group(nested_expr, '<->')
 
     return nested_expr
 

@@ -16,7 +16,11 @@ def elim(formula):
             lastImpIndex = impIndices[-1]
             termA = elim(formula[:lastImpIndex])
             termB = elim(formula[lastImpIndex + 1:])
+<<<<<<< Updated upstream
             formula = ['!', termA, 'v', termB]
+=======
+            formula = []
+>>>>>>> Stashed changes
     return formula
 
 # def collapse_not(expr_list):

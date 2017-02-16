@@ -1,14 +1,9 @@
 import logicparse as lp
 from neg import neg, invert
 
-def group_precidence(formulaString):
+def group_precedence(formulaString):
     formula = lp.nestgen(lp.parse(formulaString))
-    # now have to group by operator precidence.
-    # am I spelling precidence wrong?
-    # <-> binds least tightly.
-    # prof seemed to indicate in an example on slack that
-    # for A <-> B <-> C or whatever, to group it like
-    # (A<->B)<->C
+    # now have to group by operator precedence.
 
 def elim_iff(formula):
     iffIndices = findall(formula, '<->')

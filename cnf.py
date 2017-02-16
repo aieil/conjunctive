@@ -1,4 +1,5 @@
 import logicparse as lp
+from neg import neg, invert
 
 def group_precidence(formulaString):
     formula = lp.nestgen(lp.parse(formulaString))
@@ -50,7 +51,9 @@ def elim(formula):
             formula =
     return formula
 
-
+def demorgan(formula):
+    return neg([invert(symbol) if symbol in ('^', 'v') else neg(symbol) \
+            for symbol in formula])
 
 def findall(seq, elem):
     """

@@ -37,16 +37,17 @@ def elim(formula):
     if iffIndices != []: #eliminate top level iffs
         # the last one is at the top level since it bind least tightly.
         lastIffIndex = iffIndices[-1]
-        termA = elim_iff(formula[:lastIffIndex]) # list up to end.
-        print(termA)
-        termB = elim_iff(formula[lastIffIndex + 1:])
-        # rest of list. Will not contain iff.
-        formula = [[termA, '->', termB], '^', [termB, '->', termA]]
-    else: #eliminate bottom level iffs.
+        termA = elim(formula[:lastIffIndex]) # list up to end.
+        termB = elim(formula[lastIffIndex + 1:])
+        #formula = [[termA, '->', termB], '^', [termB, '->', termA]]
+        formula = [['!',termA, 'v', '!', termB], '^',['!', termB, 'v', termA]]
+    else: # eliminate implications
         impIndices = findall(formula, '->')
         if impIndices != []:
             lastImpIndex = impIndices[-1]
-            
+            termA = elim(formula[:lastImpIndex])
+            termB = elim(formula[lastImpIndex + 1:])
+            formula =
     return formula
 
 

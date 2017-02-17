@@ -27,23 +27,7 @@ def elim(formula):
 
 
 # def demorgan(formula): return neg([invert(symbol) if symbol in ('^', 'v') else neg(symbol) for symbol in formula])
-
-# this version is not correct and produces invalid output in some cases
-# do not use it. it should be deleted
 def demorgan(formula):
-    output = []
-    for symbol in formula:
-        if symbol in ('^', 'v'):
-            output.append(invert(symbol))
-        else:
-            output.append(neg(symbol))
-
-    return neg(output)
-
-# The c is for correct because this version actually works
-# negates the expression and then performs the demorgan operation on its 
-# contents
-def demorgan_c(formula):
     output = neg(formula)
 
     if output[0] == '!':
@@ -68,6 +52,14 @@ def demorgan_op(formula):
 # applies demorgan's theorem recursively to resolve negated bracketed
 # expressions
 def demorgan_r(formula):
+    output = demorgan(formula)
+
+    for clause in enumerate(output):
+        if type(clause[1]) == list:
+            output[clause[0]] = demorgan_r(clause[1])
+            print("did step two!")
+
+    return output
 
 
 def findall(seq, elem):

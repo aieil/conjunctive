@@ -1,13 +1,18 @@
 import logicparse as lp
 import copy
 from neg import neg, invert
+import sys
 
 
 def convert(formula):
     # step 1 remove <->, ->
+    sys.setrecursionlimit(3000)
     formula = elim(formula)
+    print("after elimination:")
+    print(formula)
     # step 2 move negation inwards.
     formula = demorgan_r(formula)
+    print("after demorgans")
     # step 3
     # step 4
     return formula
@@ -77,10 +82,6 @@ def distribute_or(formula):
             # won't happen.
 
 
-"""
-May need to to recursively apply demorgans, to it's own result,
-"""
-
 
 def flatten_singletons(lis):
     # finds lists containing a single item and moves that item up to the top level. Not recursive or anything. Only top level.
@@ -138,7 +139,7 @@ def demorgan_r(formula):
     output = demorgan(formula)
     print(output)
 
-    i = 0    
+    i = 0
     while i < len(output):
         print(output[i])
         if type(output[i]) == list and output[i][0] == '!':

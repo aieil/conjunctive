@@ -4,15 +4,20 @@ from neg import neg, invert
 import sys
 
 
-def convert(formula):
+def convert(formulaString):
+    sys.setrecursionlimit(3000) # yikes
+
+    formula = lp.nestgen(lp.parse(formulaString))
+
     # step 1 remove <->, ->
-    sys.setrecursionlimit(3000)
     formula = elim(formula)
     print("after elimination:")
     print(formula)
+
     # step 2 move negation inwards.
     formula = demorgan_r(formula)
-    print("after demorgans")
+    print("after demorgans:")
+    print(formula)
     # step 3
     # step 4
     return formula

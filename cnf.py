@@ -136,11 +136,15 @@ def demorgan_op(formula):
 # expressions
 def demorgan_r(formula):
     output = demorgan(formula)
+    print(output)
 
-    for clause in enumerate(output):
-        if type(clause[1]) == list:
-            output[clause[0]] = demorgan_r(clause[1])
-            print("did step two!")
+    i = 0    
+    while i < len(output):
+        print(output[i])
+        if type(output[i]) == list and output[i][0] == '!':
+            output[i] = demorgan_r(output[i])
+
+        i += 1
 
     return output
 

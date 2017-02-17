@@ -68,6 +68,7 @@ def distribute_or(formula):
                 if brackSymbol[j] != '^': # note: there shouldn't be ors.
                     newExpression += [[prevSymbol, 'v', brackSymbol[j]], '^']
 
+
             newExpression.pop() # have to remove a trailing ^
         #else:
             # formula[i] is a string. Only thing is if it is a !.
@@ -106,7 +107,9 @@ def iter_flatten(iterable):
 # The c is for correct because this version actually works
 # negates the expression and then performs the demorgan operation on its
 # contents
-def demorgan_c(formula):
+
+# def demorgan(formula): return neg([invert(symbol) if symbol in ('^', 'v') else neg(symbol) for symbol in formula])
+def demorgan(formula):
     output = neg(formula)
 
     if output[0] == '!':
@@ -127,6 +130,18 @@ def demorgan_op(formula):
             del formula[symbol[0]]
         else:
             formula[symbol[0]] = neg(symbol[1])
+
+# applies demorgan's theorem recursively to resolve negated bracketed
+# expressions
+def demorgan_r(formula):
+    output = demorgan(formula)
+
+    for clause in enumerate(output):
+        if type(clause[1]) == list:
+            output[clause[0]] = demorgan_r(clause[1])
+            print("did step two!")
+
+    return output
 
 def findall(seq, elem):
     """

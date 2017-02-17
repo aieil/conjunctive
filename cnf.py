@@ -65,6 +65,11 @@ def demorgan_op(formula):
         else:
             formula[symbol[0]] = neg(symbol[1])
 
+# applies demorgan's theorem recursively to resolve negated bracketed
+# expressions
+def demorgan_r(formula):
+
+
 def findall(seq, elem):
     """
     find indices of all occurences of elem at top level of list.

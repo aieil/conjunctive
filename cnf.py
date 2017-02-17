@@ -5,10 +5,12 @@ from neg import neg, invert
 
 def convert(formula):
     # step 1 remove <->, ->
+    formula = elim(formula)
     # step 2 move negation inwards.
+    formula = demorgan_r(formula)
     # step 3
     # step 4
-    pass
+    return formula
 
 
 def elim(formula):
@@ -23,7 +25,7 @@ def elim(formula):
         flatten_singletons(termB)
         #formula = [[termA, '->', termB], '^', [termB, '->', termA]]
         #formula = [['!',termA, 'v', termB], '^',['!',termB, 'v', termA]]
-        formula = [[demorgan_c(termA), 'v', termB], '^',[demorgan_c(termB), 'v', termA]]
+        formula = [[demorgan(termA), 'v', termB], '^',[demorgan(termB), 'v', termA]]
     elif findall(formula, '->') != []:
         impIndices = findall(formula, '->')
         if impIndices != []:
@@ -31,14 +33,13 @@ def elim(formula):
             termA = elim(formula[:lastImpIndex])
             termB = elim(formula[lastImpIndex + 1:])
             #formula = ['!', termA, 'v', termB]
-            formula = [demorgan_c(termA), 'v', termB]
+            formula = [demorgan(termA), 'v', termB]
     else:
         # otherwise, if there are no implications at the top level,
         # loop through any bracketed expressions and eliminate any nested imps.
         for i in range(len(formula)):
             if type(formula[i]) is list:
                 formula[i] = elim(formula[i])
-
     flatten_singletons(formula)
 
     return formula

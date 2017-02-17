@@ -23,7 +23,7 @@ def elim(formula):
         flatten_singletons(termB)
         #formula = [[termA, '->', termB], '^', [termB, '->', termA]]
         #formula = [['!',termA, 'v', termB], '^',['!',termB, 'v', termA]]
-        formula = [[demorgan(termA), 'v', termB], '^',[demorgan(termB), 'v', termA]]
+        formula = [[demorgan_c(termA), 'v', termB], '^',[demorgan_c(termB), 'v', termA]]
     elif findall(formula, '->') != []:
         impIndices = findall(formula, '->')
         if impIndices != []:
@@ -31,7 +31,7 @@ def elim(formula):
             termA = elim(formula[:lastImpIndex])
             termB = elim(formula[lastImpIndex + 1:])
             #formula = ['!', termA, 'v', termB]
-            formula = [demorgan(termA), 'v', termB]
+            formula = [demorgan_c(termA), 'v', termB]
     else:
         # otherwise, if there are no implications at the top level,
         # loop through any bracketed expressions and eliminate any nested imps.
@@ -69,7 +69,7 @@ def distribute_or(formula):
                     newExpression += [[prevSymbol, 'v', brackSymbol[j]], '^']
 
             newExpression.pop() # have to remove a trailing ^
-        else:
+        #else:
             # formula[i] is a string. Only thing is if it is a !.
             # demorgans will have been recursively applied beforehand, so it
             # won't happen.
@@ -127,11 +127,6 @@ def demorgan_op(formula):
             del formula[symbol[0]]
         else:
             formula[symbol[0]] = neg(symbol[1])
-
-# applies demorgan's theorem recursively to resolve negated bracketed
-# expressions
-#def demorgan_r(formula):
-
 
 def findall(seq, elem):
     """

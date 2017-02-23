@@ -53,17 +53,6 @@ def printSolution(colors):
             print ("Yellow")
         k=k+1
     
-       
-def main():
-
-    numofColors=3
- ##   userInput=input("please enter formula: ")
- ##   formula = (nestgen(parse(userInput)))
-
-    findSolution(graph, numofColors);
-
-    
-graph=[[0,0,1,1],[1,0,1,0],[1,1,0,1],[1,0,1,0]]
-N=len(graph)
-colors=[1,2,3,4]
-main()
+def tcp(matrix):
+    num_colours = 3
+    return findSolution(matrix, num_colours)

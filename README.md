@@ -3,7 +3,54 @@
 * __performs proofs-by-refutation__
 * __solves the three-colour problem__
 
+## use
+  python as2.py <option> <source> [output]
+
+      [output] is a local file name, it will be created if it does not exist
+      or overwritten if it does. If no file is specified, results will be
+      written to stdout
+
+      -h      show help
+      
+      -c      interpret <source> as a logical expression and write CNF clause
+              form to [output]
+
+      -p      interpret <source> as a series of logical expressions and
+              use proof-by-refutation to determine whether it is satisfiable,
+              writes result to [output]
+
+      -t      interpret <source> as a set of edges, determine if there is a 
+              solution to the three-colour problem for that graph, writes the 
+              result to [output]
+
+Code designed for Python 3.x. If you try to use Python 2.x, you will get errors.
+
 ## main module
+__as2.py : main module, calls other modules__
+
+uses modules sys and re (standard library), cnf, pbr, tcp, and logicparse (provided)
+contains functions `get_file()`, `write_file()`, `brackets()`, `cnf_to_str()`, `pbr_to_str()`, `tcp_to_str()`, `main()`
+
+### `get_file()`
+Opens a text file with the given name and returns its contents
+
+### `write_file()`
+Opens a file with the given name, and writes the given string
+
+### `brackets()`
+Given square brackets, returns round brackets, given ' returns an empty string, replacement function for `cnf_to_str()`.
+
+### `cnf_to_str()`
+Takes a CNF expression in list form and returns it as a string where the outer brackets are curly brackets, and the inner brackets are round.
+
+### `pbr_to_str()`
+If refutation results in a contradiction, return a string to that effect, otherwise, return a line saying that pbr failed.
+
+### `tcp_to_str()`
+Returns a string containing a valid solution to the three-colour problem if one exists, otherwise return a message stating that there is none.
+
+### `main()`
+Takes user input and calls functions from other modules.
 
 ## question modules
 Question modules answering questions 1-3.

@@ -1,3 +1,5 @@
+
+
 def isPossible(n,graph,colors,i):
 
     j=0
@@ -7,62 +9,61 @@ def isPossible(n,graph,colors,i):
         j=j+1
     return True
 
+
 def assignColor(graph, numofColors, colors, n):
 
+    #base case, if N is 0
     if (n==N):
         return True
     i=1
     while i<=numofColors:
-        if (isPossible(n, graph, colors, i)):
+        if (isPossible(n, graph, colors, i)): #check if color i will work with vertex n
             colors[n]=i
-
-            if (assignColor(graph,numofColors,colors,n+1)==True):
+            
+            if (assignColor(graph,numofColors,colors,n+1)==True): #assign colors to rest of vertices
                 return True
-            colors[n]=0;
+        
+            colors[n]=0; #if does not provide solution set to zero
         i=i+1
     return False
 
 
-
+##checks if assignColor returns true or false
 def findSolution(graph, numofColors):
-
-    i=0
-    while (i<N):
-        colors[i]=0;
-        i=i+1
         
     if ((assignColor(graph, numofColors, colors, 0))==False):
-        print "No possible solution"
+        print ("No possible solution")
         return False
     else:
-        print "True"
         printSolution(colors)
         return True
 
-def printSolution(colours):
+#if there is a solution, this function will convert the numbers assigned to each vertex
+# 1 = red, 2 = blue and 3 = yellow
+def printSolution(colors):
 
-    print "solution exists"
+    print ("solution exists")
     k=0
     while k<N:
         if colors[k]==1:
-            print "Red"
+            print ("Red")
         elif colors[k]==2:
-            print "Blue"
+            print ("Blue")
         else:
-            print "Yellow"
-        ##print colors[k]
+            print ("Yellow")
         k=k+1
-
-
+    
+       
 def main():
 
-
-
     numofColors=3
+ ##   userInput=input("please enter formula: ")
+ ##   formula = (nestgen(parse(userInput)))
+
     findSolution(graph, numofColors);
 
     
-graph=[[0,1,1,1,0],[1,1,1,1,1],[1,1,0,1,0],[1,1,1,1,1],[1,1,0,0,0]]
+graph=[[0,0,1,1],[1,0,1,0],[1,1,0,1],[1,0,1,0]]
 N=len(graph)
-colors=[1,2,3,4,5]
+colors=[1,2,3,4]
 main()

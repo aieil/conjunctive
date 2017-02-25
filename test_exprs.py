@@ -3,6 +3,15 @@ e2 = "((!meow->moo)vWoof)<->squeek->chinchilla"
 e3 = "(!AvB)"
 e4 = "!(A^(Bv!C))"
 e5 = "!Av(D^B)"
+e6 = "!A->(Bv!C)"
+e7 = "!!A<->!B<->!!C^DvX->Z"
+e8 = "!!A<->(!B)<->!(!C)^DvX->Z"
+e9 = "!(!(!(MEOW)))"
+e10 = "((((atom))))"
+
+l1 = ["!", ["A", 'v', 'B']]
+
+doublenot = ['!', ['!', ['A', '^', 'B']]]
 
 singletons = ['!',
  [['!',

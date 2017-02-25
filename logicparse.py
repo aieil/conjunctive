@@ -88,7 +88,7 @@ def edges_to_matrix(expr):
 
     # generate n*n matrix
     mat = [[0 for edges in nodes] for edges in nodes]
-    
+
     # used to index matrix
     nodes_list = sorted(nodes)
     i = 0
@@ -105,7 +105,7 @@ def edges_to_matrix(expr):
         i += 1
 
     return mat
-        
+
 
 # for the three-colour problem, just goes through the list and
 # makes the strings into integers

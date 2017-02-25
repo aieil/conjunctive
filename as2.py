@@ -15,7 +15,7 @@ usage: as2 <option> <source> [output]
     written to stdout
 
     -h      show help
-    
+
     -c      interpret <source> as a logical expression and write CNF clause
             form to [output]
 
@@ -23,8 +23,8 @@ usage: as2 <option> <source> [output]
             use proof-by-refutation to determine whether it is satisfiable,
             writes result to [output]
 
-    -t      interpret <source> as a set of edges, determine if there is a 
-            solution to the three-colour problem for that graph, writes the 
+    -t      interpret <source> as a set of edges, determine if there is a
+            solution to the three-colour problem for that graph, writes the
             result to [output]
 """
 

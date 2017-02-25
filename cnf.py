@@ -5,8 +5,6 @@ import sys
 import pprint
 
 
-
-
 def convert(formulaString):
     sys.setrecursionlimit(3000) # yikes
 
@@ -29,17 +27,6 @@ def convert(formulaString):
 
     # step 4
     #return formula
-['!',
- [['!',
-   [['!', [[['!', 'A'], 'v', '!B'], '^', [['!', '!B'], 'v', 'A']]],
-    'v',
-    [['!', [['C', '^', 'D'], 'v', 'X']], 'v', 'Z']]],
-  'v',
-  ['!',
-   [['!', [['!', [['C', '^', 'D'], 'v', 'X']], 'v', 'Z']],
-    'v',
-    [[['!', 'A'], 'v', '!B'], '^', [['!', '!B'], 'v', 'A']]]]]]
-
 
 
 def elim(formula):
@@ -49,9 +36,9 @@ def elim(formula):
     if iffIndices != []: #eliminate top level iffs
         lastIffIndex = iffIndices[-1]
         termA = elim(formula[:lastIffIndex])     # start of list to <->
-        flatten_singletons(termA)
+        #flatten_singletons(termA)
         termB = elim(formula[lastIffIndex + 1:]) # <-> to end of list.
-        flatten_singletons(termB)
+        #flatten_singletons(termB)
         #formula = [[termA, '->', termB], '^', [termB, '->', termA]]
         #formula = [['!',termA, 'v', termB], '^',['!',termB, 'v', termA]]
         formula = [[neg(termA), 'v', termB], '^', [neg(termB), 'v', termA]]
@@ -62,25 +49,40 @@ def elim(formula):
             termA = elim(formula[:lastImpIndex])
             termB = elim(formula[lastImpIndex + 1:])
             #formula = ['!', termA, 'v', termB]
-            if type(termA) is str:
-                formula = [neg(termA), 'v', termB]
-            else:
-                formula = [neg(termA), 'v', termB]
+            # if type(termA) is str:
+            #     formula = [neg(termA), 'v', termB]
+            # else:
+            #     formula = [neg(termA), 'v', termB]
+            formula = [neg(termA), 'v', termB]
     else:
         # otherwise, if there are no implications at the top level,
         # loop through any bracketed expressions and eliminate any nested imps.
         for i in range(len(formula)):
             if type(formula[i]) is list:
                 formula[i] = elim(formula[i])
-    flatten_singletons(formula)
+    #flatten_singletons(formula)
 
     return formula
+
+def elim2(formula):
+    # since formula is grouped by precidence, no expression will have
+    # len > 3. Any implication or iff will be at index 1. in the middle.
+    # this rewrite reflects that.
+    """
+    Assumptions:
+    1) no exprs [!, X] where x is a string. Top level ! is followed by a list.
+    2) if
+    """
+
+    # case 1: [! X] where X is a list
 
 def collapse_not(formula):
     """
     Takes a nested expression tree thing, checks for uncollapsed nots, and eliminates. recursively.
     """
-
+    # go through everything and look for this pattern: ['!', 'X']
+    # so for list L, check 'L[0]' == '!' and type(L[1]) is str
+    # replace with
 
 
 def distribute_or(formula):
@@ -88,7 +90,7 @@ def distribute_or(formula):
     output = []
     for i in range(len(formula)):
         if type(formula[i]) is list: # see if this element is an atom or a subformula.
-             output.append(distribute_or(formula[i]))
+            output.append(distribute_or(formula[i]))
         elif formula[i] == 'v' and  type(formula[i+1]) is list:
             # remove the next item from the formula list, and call distribute
             # on it.
@@ -145,9 +147,6 @@ def distribute_or2(formula):
 
     # I think that's how this would work. This is NOT very efficient. Gross.
     # too much recursion.
-
-
-
 
 
 def distribute_element(A, BandC):
@@ -224,7 +223,6 @@ def iter_flatten(iterable):
 # def demorgan(formula): return neg([invert(symbol) if symbol in ('^', 'v') else neg(symbol) for symbol in formula])
 def demorgan(formula):
     output = neg(formula)
-
     if output[0] == '!':
         demorgan_op(output[1])
     else:
@@ -249,7 +247,6 @@ def demorgan_op(formula):
 def demorgan_r(formula):
     output = demorgan(formula)
     #print(output)
-
     i = 0
     while i < len(output):
         #print(output[i])
@@ -259,6 +256,8 @@ def demorgan_r(formula):
         i += 1
 
     return output
+
+
 
 def findall(seq, elem):
     """

@@ -72,13 +72,14 @@ def main():
     setrecursionlimit(8000)
     if len(argv) > 1:
         if argv[1] == '-c': # CNF
-            output = cnf_to_str(cnf.convert(lp.parse(get_file(argv[2]))))
+            output = cnf_to_str(cnf.convert(
+                lp.nestgen(lp.parse(get_file(argv[2])), True)))
         elif argv[1] == '-p': # PBR
-            output = pbr_to_str(pbr.pbr(cnf.convert(lp.parse_multiline(
-                get_file(argv[2])))))
+            output = pbr_to_str(pbr.pbr(cnf.convert(
+                lp.nestgen(lp.parse_multiline(get_file(argv[2])), True))))
         elif argv[1] == '-t': # TCP
-            output = tcp_to_str(tcp.tcp(cnf.convert(lp.parse_multiline(
-                get_file(argv[2])))))
+            output = tcp_to_str(tcp.tcp(cnf.convert(lp.nestgen(
+                lp.parse_multiline(get_file(argv[2])), True))))
         else:
             print(usage)
             return

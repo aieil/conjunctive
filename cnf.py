@@ -12,27 +12,30 @@ def convert(formula):
     # step 1 remove <->, ->
     formula = elim(formula)
     formula = flatten_singletons_r(formula)
-    #print("after elimination:")
-    #pprint.pprint(formula)
+    print("after elimination:")
+    pprint.pprint(formula)
 
     # step 2 move negation inwards, eliminate double negation. #done.
     formula = jlDemorgan_r(formula)
-    #print("after demorgans:")
-    #pprint.pprint(formula)
+
+    print("after demorgans:")
+    pprint.pprint(formula)
 
     # step 3
-    #print("distributed formula")
+    print("distributed formula")
     formula = distribute_or(formula)
-    #pprint.pprint(formula)
+    pprint.pprint(formula)
 
     flattened = list(iter_flatten(formula))
-    #print(flattened)
+    print(flattened)
     # now have to make this into sequences of cnf terms.
     #andindices = findall(flattened, '^')
 
     #print("clause form:")
     cf =  splitlist(flattened, '^')
     #print(cf)
+    delete_or(cf)
+
     return cf
 
 
@@ -49,27 +52,33 @@ def convert_test(formulaString):
     # step 1 remove <->, ->
     formula = elim(formula)
     formula = flatten_singletons_r(formula)
-    #print("after elimination:")
+    print("after elimination:")
     pprint.pprint(formula)
 
     # step 2 move negation inwards, eliminate double negation. #done.
     formula = jlDemorgan_r(formula)
-    #print("after demorgans:")
+    print("after demorgans:")
     pprint.pprint(formula)
 
     # step 3
-    #print("distributed formula")
+    print("distributed formula")
     formula = distribute_or(formula)
     pprint.pprint(formula)
 
-    flattened = list(iter_flatten(formula))
-    #print(flattened)
+
+    if not isAtom(formula):
+        flattened = list(iter_flatten(formula))
+        print(flattened)
+    else:
+        flattened = [formula]
     # now have to make this into sequences of cnf terms.
     #andindices = findall(flattened, '^')
 
-    #print("clause form:")
+    print("clause form:")
     cf =  splitlist(flattened, '^')
-    #print(cf)
+    print(cf)
+
+    delete_or(cf)
 
     return cf
 
@@ -101,6 +110,21 @@ def elim(formula):
                 formula[i] = elim(formula[i])
 
     return formula
+
+
+def delete_or(clauses):
+    #print("deleting or:")
+    for clause in clauses:
+        #print(clause)
+        orinds = findall(clause, 'v')
+        #print(orinds)
+        if orinds != []:
+            i = 0
+            while i < len(orinds):
+                # have to reduce the index, to account for indices already
+                # deleted.
+                del clause[orinds[i] - i]
+                i += 1
 
 
 def distribute_or(formula):
@@ -151,6 +175,9 @@ def distribute_or(formula):
     case 4-3 (A1 v A2) v (B1 v B2) -> case 5
     """
     ######### case a #########
+    # print("distribute or on formula:")
+    # print(formula)
+
     if isAtom(formula):
         return formula
 
@@ -201,8 +228,11 @@ def distrib_doublecase(A, B):
     # A v B
     # A v (B1 ^ B2)
     B1 = B[0]
+
     Bop = B[1]
+
     B2 = B[2]
+
 
     A1 = A[0]
     Aop = A[1]
@@ -274,9 +304,15 @@ def jlDemorgan_r(formula):
     # output will be unchanged if length is not 2
     output = jlDemorgan(formula)
     # output should now be of the form AvB or else simply an atom
+    if type(output) is str:
+        return output
+    if len(output) == 2 and type(output) is list:
+        return jlDemorgan_r(output)
     for i in range(len(output)):
         if type(output[i]) is list:
             output[i] = jlDemorgan_r(output[i])
+    print("demorgan output of formula:", formula)
+    print(output)
     return output
 
 def jlDemorgan(formula):
@@ -292,7 +328,7 @@ def jlDemorgan(formula):
         # the only case in which demorgans should be applied is if there is a
         # negated inner list, with an or or and.
         # [!, [meowA ^ meowB]] -> [!meowA v !meowB]
-        if len(formula[1]) == 3:
+        if type(formula[1]) is list and len(formula[1]) == 3:
             A = formula[1][0]
             operator = formula[1][1]
             B = formula[1][2]
@@ -300,6 +336,7 @@ def jlDemorgan(formula):
         else:
             # f[1] = [! [blah]]
             # [blah] # assume no singletons.
+            # [! blah]
             return neg(formula[1]) # eliminate not.
     else: # in this case, it's a normal binary expression. Leave it unchanged.
         return formula

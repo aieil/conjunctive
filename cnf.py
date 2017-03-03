@@ -83,11 +83,23 @@ def convert_test(formulaString):
 
     delete_or(cf)
 
-    #eliminate tautologies.
+    # print("clause form:")
+    cf =  splitlist(flattened, '^')
+    # print(cf)
+
+    delete_or(cf)
+
+
 
     return cf
 
-
+def correct_tautology(terms):
+    newlist = []
+    for each in terms:
+        if neg(each) not in terms:
+            newlist.append(each)
+    terms = newlist
+    # unfortuneately this means that the list will now contain some empty lists.
 
 def elim(formula):
     # combined elimination of <-> and ->
@@ -316,8 +328,8 @@ def jlDemorgan_r(formula):
     for i in range(len(output)):
         if type(output[i]) is list:
             output[i] = jlDemorgan_r(output[i])
-    print("demorgan output of formula:", formula)
-    print(output)
+    #print("demorgan output of formula:", formula)
+    #print(output)
     return output
 
 def jlDemorgan(formula):

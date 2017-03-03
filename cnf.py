@@ -9,32 +9,37 @@ def convert(formula):
     sys.setrecursionlimit(4000)
     formula = copy.deepcopy(formula)
 
-    # step 1 remove <->, ->
     formula = elim(formula)
     formula = flatten_singletons_r(formula)
-    print("after elimination:")
-    pprint.pprint(formula)
+    # print("after elimination:")
+    # pprint.pprint(formula)
 
     # step 2 move negation inwards, eliminate double negation. #done.
     formula = jlDemorgan_r(formula)
-
-    print("after demorgans:")
-    pprint.pprint(formula)
+    # print("after demorgans:")
+    # pprint.pprint(formula)
 
     # step 3
-    print("distributed formula")
+    # print("distributed formula")
     formula = distribute_or(formula)
-    pprint.pprint(formula)
+    # pprint.pprint(formula)
 
-    flattened = list(iter_flatten(formula))
-    print(flattened)
+
+    if not isAtom(formula):
+        flattened = list(iter_flatten(formula))
+        # print(flattened)
+    else:
+        flattened = [formula]
     # now have to make this into sequences of cnf terms.
     #andindices = findall(flattened, '^')
 
-    #print("clause form:")
+    # print("clause form:")
     cf =  splitlist(flattened, '^')
-    #print(cf)
+    # print(cf)
+
     delete_or(cf)
+
+    #eliminate tautologies.
 
     return cf
 
@@ -52,33 +57,35 @@ def convert_test(formulaString):
     # step 1 remove <->, ->
     formula = elim(formula)
     formula = flatten_singletons_r(formula)
-    print("after elimination:")
-    pprint.pprint(formula)
+    # print("after elimination:")
+    # pprint.pprint(formula)
 
     # step 2 move negation inwards, eliminate double negation. #done.
     formula = jlDemorgan_r(formula)
-    print("after demorgans:")
-    pprint.pprint(formula)
+    # print("after demorgans:")
+    # pprint.pprint(formula)
 
     # step 3
-    print("distributed formula")
+    # print("distributed formula")
     formula = distribute_or(formula)
-    pprint.pprint(formula)
+    # pprint.pprint(formula)
 
 
     if not isAtom(formula):
         flattened = list(iter_flatten(formula))
-        print(flattened)
+        # print(flattened)
     else:
         flattened = [formula]
     # now have to make this into sequences of cnf terms.
     #andindices = findall(flattened, '^')
 
-    print("clause form:")
+    # print("clause form:")
     cf =  splitlist(flattened, '^')
-    print(cf)
+    # print(cf)
 
     delete_or(cf)
+
+    #eliminate tautologies.
 
     return cf
 

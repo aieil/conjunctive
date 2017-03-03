@@ -30,7 +30,7 @@ usage: as2 <option> <source> [output]
 
 # opens a file, reads it, closes it
 def get_file(source):
-    f = open(source, 'w')
+    f = open(source, 'r')
     text = f.read()
     f.close()
 
@@ -38,7 +38,7 @@ def get_file(source):
 
 # writes given output to a file
 def write_file(dest, data):
-    f = open(dest, 'r')
+    f = open(dest, 'w')
     f.write(data)
     f.close()
 
@@ -69,14 +69,18 @@ def tcp_to_str(result):
 
 # executes the function given by the option
 def main():
-    if argv[1] == '-c': # CNF
-        output = cnf_to_str(cnf.convert(lp.parse(get_file(argv[2]))))
-    elif argv[1] == '-p': # PBR
-        output = pbr_to_str(pbr.pbr(cnf.convert(lp.parse_multiline(
-            get_file(argv[2])))))
-    elif argv[1] == '-t': # TCP
-        output = tcp_to_str(tcp.tcp(cnf.convert(lp.parse_multiline(
-            get_file(argv[2])))))
+    if len(argv) > 1:
+        if argv[1] == '-c': # CNF
+            output = cnf_to_str(cnf.convert(lp.parse(get_file(argv[2]))))
+        elif argv[1] == '-p': # PBR
+            output = pbr_to_str(pbr.pbr(cnf.convert(lp.parse_multiline(
+                get_file(argv[2])))))
+        elif argv[1] == '-t': # TCP
+            output = tcp_to_str(tcp.tcp(cnf.convert(lp.parse_multiline(
+                get_file(argv[2])))))
+        else:
+            print(usage)
+            return
     else:
         print(usage)
         return

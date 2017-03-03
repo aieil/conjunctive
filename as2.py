@@ -1,6 +1,6 @@
 # main module
 # runs problem solutions
-from sys import argv
+from sys import argv, setrecursionlimit
 import re
 import cnf
 import pbr
@@ -69,6 +69,7 @@ def tcp_to_str(result):
 
 # executes the function given by the option
 def main():
+    setrecursionlimit(8000)
     if len(argv) > 1:
         if argv[1] == '-c': # CNF
             output = cnf_to_str(cnf.convert(lp.parse(get_file(argv[2]))))

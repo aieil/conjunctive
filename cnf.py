@@ -1,12 +1,10 @@
 import logicparse as lp
 import copy
 from neg import neg, invert
-import sys
 import pprint
 
 
 def convert(formula):
-    sys.setrecursionlimit(4000)
     formula = copy.deepcopy(formula)
 
     formula = elim(formula)

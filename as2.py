@@ -64,7 +64,7 @@ def pbr_to_str(result):
 
 def tcp_to_str(result):
     if (result):
-        return '{' + str(result)[1:-1] + '}'
+        return '{' + re.sub(r'\'', brackets, str(result)[1:-1]) + '}'
     return "The graph cannot be three-coloured"
 
 # executes the function given by the option

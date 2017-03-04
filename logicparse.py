@@ -72,36 +72,36 @@ def find_and_group(lis, oper, groupsize=3):
 
 # convert edge set to matrix
 def edges_to_matrix(expr):
-    nodes = {}
+    vertices = {}
 
-    # get list of edges by node
+    # get list of edges by vertex
     for edge in expr:
-        if edge[0] not in nodes:
-            nodes[edge[0]] = [edge[1]]
+        if edge[0] not in vertices:
+            vertices[edge[0]] = [edge[1]]
         else:
-            nodes[edge[0]].append([edge[1]])
+            vertices[edge[0]].append(edge[1])
 
-        if edge[1] not in nodes:
-            nodes[edge[1]] = [edge[0]]
+        if edge[1] not in vertices:
+            vertices[edge[1]] = [edge[0]]
         else:
-            nodes[edge[1]].append([edge[0]])
+            vertices[edge[1]].append(edge[0])
 
     # generate n*n matrix
-    mat = [[0 for edges in nodes] for edges in nodes]
+    mat = [[0 for edges in vertices] for edges in vertices]
 
     # used to index matrix
-    nodes_list = sorted(nodes)
+    vertices_list = sorted(vertices)
     i = 0
 
-    # traverse list of nodes
-    while i < len(nodes_list):
+    # traverse list of vertices
+    while i < len(vertices_list):
         j = 0
-        # traverse the list assigned to the current node
-        while j < len(nodes[nodes_list[i]]):
+        # traverse the list assigned to the current vertex
+        while j < len(vertices[vertices_list[i]]):
             # get the corresponding index of the connecting node k
             # set mat[i][k] = 1
-            mat[i][nodes_list.index(nodes[nodes_list[i]][j])] = 1
+            mat[i][vertices_list.index(vertices[vertices_list[i]][j])] = 1
             j += 1
         i += 1
 
-    return mat
+    return mat, vertices_list

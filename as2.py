@@ -62,8 +62,10 @@ def pbr_to_str(result):
         return "The conclusion does not follow logically from the premises"
     return "The conclusion follows logically from the premises"
 
-def tcp_to_str(result):
+def tcp_to_str(result, vertices):
     if (result):
+        for v in enumerate(vertices):
+            result[v[0]] = result[v[0]] + v[1]
         return '{' + re.sub(r'\'', brackets, str(result)[1:-1]) + '}'
     return "The graph cannot be three-coloured"
 
@@ -78,8 +80,9 @@ def main():
             output = pbr_to_str(pbr.pbr(cnf.convert(
                 lp.nestgen(lp.parse_multiline(get_file(argv[2])), True))))
         elif argv[1] == '-t': # TCP
-            output = tcp_to_str(tcp.tcp(lp.edges_to_matrix(cnf.convert(
-                lp.nestgen(lp.parse_multiline(get_file(argv[2])), True)))))
+            mat, vertices = lp.edges_to_matrix(lp.nestgen(
+                lp.parse(get_file(argv[2]))))
+            output = tcp_to_str(tcp.tcp(mat), vertices)
         else:
             print(usage)
             return

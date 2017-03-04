@@ -1,58 +1,44 @@
-
-
-def isPossible(n,graph,colors,i):
-
-    j=0
-    while (j<3):
-        if (graph[n][j] and i ==colors[j]):
+def is_possible(n, matrix, vertices, i):
+    j = 0
+    while j < len(vertices):
+        if matrix[n][j] and i == vertices[j]:
             return False
-        j=j+1
+        j += 1
     return True
 
 
-def assignColor(graph, numofColors, colors, n):
-
-    #base case, if N is 0
-    if (n==N):
+def assign_colour(graph, num_colours, vertices, n):
+    #base case
+    if (n == len(vertices)):
         return True
+
     i=1
-    while i<=numofColors:
-        if (isPossible(n, graph, colors, i)): #check if color i will work with vertex n
-            colors[n]=i
+    while i <= num_colours:
+        #check if colour i will work with vertex n
+        if (is_possible(n, graph, vertices, i)):
+            vertices[n] = i
             
-            if (assignColor(graph,numofColors,colors,n+1)==True): #assign colors to rest of vertices
+            #assign colours to rest of vertices
+            if assign_colour(graph, num_colours, vertices, n+1):                 
                 return True
         
-            colors[n]=0; #if does not provide solution set to zero
+            vertices[n] = 0 #if does not provide solution set to zero
         i=i+1
     return False
 
 
-##checks if assignColor returns true or false
-def findSolution(graph, numofColors):
-        
-    if ((assignColor(graph, numofColors, colors, 0))==False):
-        print ("No possible solution")
-        return False
+# checks if assign_colour returns true or false
+def findSolution(matrix, num_colours):
+    vertices = [0 for vertex in matrix] 
+    if assign_colour(matrix, num_colours, vertices, 0):
+        return solution(vertices)
     else:
-        printSolution(colors)
-        return True
+        return False
 
-#if there is a solution, this function will convert the numbers assigned to each vertex
-# 1 = red, 2 = blue and 3 = yellow
-def printSolution(colors):
+# returns a list of values R, G or B for each index of the vertices
+def solution(vertices):
+    return ['R' if v == 1 else 'G' if v == 2 else 'B' for v in vertices]
 
-    print ("solution exists")
-    k=0
-    while k<N:
-        if colors[k]==1:
-            print ("Red")
-        elif colors[k]==2:
-            print ("Blue")
-        else:
-            print ("Yellow")
-        k=k+1
-    
 def tcp(matrix):
     num_colours = 3
     return findSolution(matrix, num_colours)

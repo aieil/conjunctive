@@ -4,7 +4,7 @@
 * __solves the three-colour problem__
 
 ## use
-  python as2.py <option> <source> [output]
+    python as2.py <option> <source> [output]
 
       [output] is a local file name, it will be created if it does not exist
       or overwritten if it does. If no file is specified, results will be

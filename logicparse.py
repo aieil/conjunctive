@@ -68,7 +68,7 @@ def find_and_group(lis, oper, groupsize=3):
         if lis[i + (groupsize - 2)] == oper:
             lis[i] = [lis[j] for j in range(i, i+groupsize)]
             for j in range(groupsize-1): del lis[i+1]
-        i += 1
+        else: i += 1
 
 # convert edge set to matrix
 def edges_to_matrix(expr):

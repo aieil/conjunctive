@@ -65,7 +65,7 @@ def pbr_to_str(result):
 def tcp_to_str(result, vertices):
     if (result):
         for v in enumerate(vertices):
-            result[v[0]] = result[v[0]] + v[1]
+            result[v[0]] = v[1] + result[v[0]]
         return '{' + re.sub(r'\'', brackets, str(result)[1:-1]) + '}'
     return "The graph cannot be three-coloured"
 

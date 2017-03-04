@@ -14,9 +14,9 @@ def parse_multiline(expr):
 
     for line in expr.splitlines():
         if 'Therefore' in line:
-            parsed_expr += ['^'] + neg(parse(line)[1:])
+            parsed_expr += ['^', neg(parse(line)[1:])]
         else:
-            parsed_expr += ['^'] + parse(line)
+            parsed_expr += ['^', parse(line)]
 
     del parsed_expr[0] # delete the first ^, we don't need it
     return parsed_expr

@@ -4,6 +4,7 @@ def neg(expr):
     if type(expr) == str:
         return expr[1:] if expr[0] == '!' else '!' + expr
     elif type(expr) == list:
+        if len(expr) == 1: return [neg(expr[0])]
         return expr[1] if expr[0] == '!' else ['!', expr]
 
 # given ^, yields v, vice-versa

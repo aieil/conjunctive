@@ -23,7 +23,7 @@ def dpll(clauses, literals):
     c = dc(clauses)
     l = dc(literals)
 
-    cls == consistent_lits(clauses, literals)
+    cls = consistent_lits(clauses, literals)
  
     # c is a consistent set of literals or is empty
     if c == [] or cls: return True

@@ -28,7 +28,7 @@ def dpll(clauses, literals):
     # c is a consistent set of literals or is empty
     if c == [] or cls: return True
     # c contains an empty clause or is unsatisfiable
-    elif [] in clauses or cls is None: return False 
+    elif cls is None: return False 
 
     # unit propagation
     for literal in units(clauses):
@@ -102,8 +102,10 @@ def units(clauses): return [c[0] for c in clauses if len(c) == 1]
 # returns false otherwise (not yet determined)
 def consistent_lits(clauses, literals):
     # check that everything is a literal
+    # if we have the empty clause, it means we are not SAT
     for clause in clauses:
         if len(clause) > 1: return False
+        elif clause == []: return None
 
     # check that everything is consistent    
     i = 0
@@ -115,6 +117,3 @@ def consistent_lits(clauses, literals):
             j += 1
         i += 1
     return True
-
-
-

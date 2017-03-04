@@ -78,8 +78,8 @@ def main():
             output = pbr_to_str(pbr.pbr(cnf.convert(
                 lp.nestgen(lp.parse_multiline(get_file(argv[2])), True))))
         elif argv[1] == '-t': # TCP
-            output = tcp_to_str(tcp.tcp(cnf.convert(lp.nestgen(
-                lp.parse_multiline(get_file(argv[2])), True))))
+            output = tcp_to_str(tcp.tcp(lp.edges_to_matrix(cnf.convert(
+                lp.nestgen(lp.parse_multiline(get_file(argv[2])), True)))))
         else:
             print(usage)
             return
